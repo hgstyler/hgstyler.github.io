@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyeon-gyu Choi's Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React and ReactDOM CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel CDN for JSX transpilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Custom Tailwind CSS configuration -->
+    <script>
+      tailwind.config = {
+        darkMode: 'class', // 'media' 또는 'class'
+        theme: {
+          extend: {
+            colors: {
+              sky: tailwind.colors.sky,
+              amber: tailwind.colors.amber,
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+        /* 기본 폰트 및 스크롤 동작 설정 */
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        /* Google Fonts (Inter) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // 데이터 정의: 한국어 및 영어 콘텐츠
+        const content = {
+          ko: {
+            name: "최현규",
+            title: "환경공학 연구원 | KOLAS 책임자 | 연구장비 프로그래머",
+            contact: "연락처",
+            email1: "hgstyle@gmail.com",
+            email2: "hgstyle@naver.com",
+            totalExperience: "총 14년 9개월 경력",
+            sections: {
+              about: "소개",
+              experience: "경력",
+              education: "학력",
+              certifications: "자격/어학/수상",
+              publications: "논문",
+              patents: "특허",
+              skills: "나의 스킬",
+              contactInfo: "연락처 정보",
+            },
+            summary: {
+              title: "간략 소개",
+              items: [
+                {
+                  category: "환경공학 연구경력",
+                  description: "환경공학 전공으로 석박사 통합 학위를 받았고, 정부출연연구기관에서 관련 분야 연구 경력을 쌓았습니다. 분리막, 흡착제, 고급산화 소재 개발 연구를 담당하였으며, 특히 분리막 연구를 메인으로 수행하였고, 학위생 연구지도를 병행하였습니다."
+                },
+                {
+                  category: "KOLAS 인정준비 총괄",
+                  description: "KS Q ISO/IEC 17025 인정획득 완료 (품질책임자-기술책임자 실무 병행). 대기/수질/악취/실내공기질 분야 KOLAS 17025, 17043 인정준비 업무를 총괄하였습니다. 품질문서 신규 작성 및 관리, 측정불확도 산출 관리 등 인정준비 과정 전체를 총괄하였습니다."
+                },
+                {
+                  category: "연구사업계획서 작성, 발표 총괄",
+                  description: "정부지원사업계획서 작성, 발표, 연구사업 수행(중간/최종보고서 작성 포함) 경험 다수. 사업계획 공고내용에 없는 사업을 신규 런칭한 경험이 있으며(Smart Water Grid), 지원기관이 단일 또는 컨소시엄 형태의 복수기관인 연구사업계획서 기획 경험이 많습니다. 기업 재직 후 연구사업계획서 작성부터 발표까지 모든 과정을 혼자 진행하고 있습니다."
+                },
+                {
+                  category: "연구장비 소프트웨어 엔지니어 교육경력",
+                  description: "표준과학연구원 연구장비 소프트웨어 엔지니어 양성교육 과정 수료. C++, Python, Java 등 메인 프로그래밍 언어를 잘 이해하고 있으며, 연구장비 이미지 품질 개선을 위한 AI모델 개발 프로젝트로 연구성과발표대회 대상 수상."
+                }
+              ]
+            },
+            coreCompetencies: {
+              title: "핵심 역량",
+              items: [
+                "KOLAS 대기/수질/악취 시험인정획득 업무 총괄 (ISO 17025)",
+                "국책연구사업 연구기획/수행/각종보고서자료 작성 및 발표 다수",
+                "환경나노공학 소재개발 및 공정검증 연구 (분리막, 흡착, 촉매고도산화 등)",
+                "연구장비 소프트웨어 엔지니어(연구장비 프로그래머) 양성교육 1년 교육과정 수료"
+              ]
+            },
+            experience: {
+              title: "경력",
+              items: [
+                {
+                  title: "연구부 수석연구원 R&D",
+                  company: "알디솔루션",
+                  period: "2025.06 - 2025.07 (2개월)",
+                  location: "충남",
+                  responsibilities: [
+                    "2차전지 건식제련 재활용 기술 연구",
+                    "연간 1000톤 규모 파일럿공정 기술지원",
+                    "관련 정부과제 수행 및 관리",
+                    "환경 이슈 대응"
+                  ],
+                  salary: "연봉 6,000만원",
+                  reasonForLeaving: "경영 환경 및 직무 방향성 차이"
+                },
+                {
+                  title: "인증본부 책임연구원 R&D기획",
+                  company: "한국표준환경연구원",
+                  period: "2024.01 - 2025.05 (1년 5개월)",
+                  location: "대전",
+                  responsibilities: [
+                    "KOLAS KS Q ISO/IEC 17025, 17043 인정획득 업무 총괄 (품질책임자, 기술책임자 역할 동시 수행)",
+                    "환경오염 및 기후변화 표준사업/투자 계획서 기획 총괄"
+                  ],
+                  salary: "연봉 5,500만원",
+                  reasonForLeaving: "경영악화"
+                },
+                {
+                  title: "분석팀·분석총괄",
+                  company: "신안환경연구소",
+                  period: "2024.03 - 2024.12 (10개월)",
+                  location: "대전",
+                  responsibilities: [
+                    "대기/수질오염물질 측정분석 업무 총괄",
+                    "대기분석 기술책임자",
+                    "연구/투자사업 기획 총괄"
+                  ],
+                  salary: "연봉 5,500만원",
+                  reasonForLeaving: "폐업"
+                },
+                {
+                  title: "GMA 교육생·교육과정",
+                  company: "한국표준과학연구원",
+                  period: "2022.02 - 2022.12 (11개월)",
+                  location: "대전",
+                  responsibilities: [
+                    "연구장비분야 전문인력양성과정 (SW엔지니어) 교육 수료",
+                    "C/C++, Python, Java 등 메인 프로그래밍 언어 교육",
+                    "심층 프로젝트 수행: SEM 이미지 품질 개선을 위한 AI 모델 개발",
+                    "심층 프로젝트 성과발표대회 대상(과기부 장관상) 수상"
+                  ],
+                  reasonForLeaving: "교육종료"
+                },
+                {
+                  title: "기술연구소 R&D",
+                  company: "(주)이에스티",
+                  period: "2021.06 - 2022.01 (8개월)",
+                  location: "대전",
+                  responsibilities: [
+                    "촉매고급산화 소재 개발 및 공정검증 연구"
+                  ],
+                  salary: "연봉 5,000만원",
+                  reasonForLeaving: "계약만료"
+                },
+                {
+                  title: "선임연구원 R&D",
+                  company: "한국화학연구원",
+                  period: "2016.03 - 2018.05 (2년 3개월)",
+                  location: "대전",
+                  responsibilities: [
+                    "수처리, 해수담수, 가스처리용 분리막 개발 연구 및 국책연구사업 기획/수행",
+                    "외국인 박사학위과정생 학위연구 지도"
+                  ],
+                  salary: "연봉 5,500만원",
+                  reasonForLeaving: "계약만료"
+                },
+                {
+                  title: "연구원 (석박사 학위과정)",
+                  company: "광주과학기술원",
+                  period: "2008.03 - 2016.08 (8년 6개월)",
+                  location: "광주",
+                  responsibilities: [
+                    "환경나노기술 연구 및 국책연구사업 기획"
+                  ]
+                }
+              ]
+            },
+            education: {
+              title: "학력",
+              items: [
+                {
+                  degree: "대학원(박사) 환경공학",
+                  institution: "광주과학기술원대학원",
+                  period: "2008.03 - 2016.08 졸업",
+                  location: "광주",
+                  gpa: "3.94/4.5",
+                  thesis: "Nanocomposite Polymeric Membranes in Forward Osmosis for Seawater Desalination: Synthesis, Characterization and Effect of Functionalized Carbon Nanotube Blending for Seawater Desalination"
+                },
+                {
+                  degree: "응용화학공학부 환경공학 (4년제)",
+                  institution: "부산대학교",
+                  period: "2000.03 - 2008.02 졸업",
+                  location: "부산",
+                  gpa: "4.01/4.5"
+                }
+              ]
+            },
+            certifications: {
+              title: "자격/어학/수상",
+              items: [
+                { date: "2020.10", name: "OPIC Advanced Low급/PASS", issuer: "영어" },
+                { date: "2007.03", name: "대기환경기사 최종합격", issuer: "한국산업인력공단" },
+                { date: "2007.11", name: "수질환경기사 최종합격", issuer: "한국산업인력공단" },
+                { date: "2024.02", name: "ISO/IEC 17025 운영실무 최종합격", issuer: "한국산업기술시험원" },
+                { date: "2024.02", name: "ISO/IEC 17043 운영실무 최종합격", issuer: "한국화학융합시험연구원" },
+                { date: "2024.03", name: "측정불확도 추정교육 최종합격", issuer: "한국시험인증산업협회" },
+                { date: "2022.12", name: "연구장비분야 전문인력 양성과정 성과발표대회 대상", issuer: "과학기술정보통신부" }
+              ]
+            },
+            publications: {
+              title: "논문",
+              sci: "SCI 논문 10편",
+              domestic: "국내학술논문 1편",
+              sciList: [
+                "Hyeon-gyu Choi, Aatif Ali Shah, Seung-Eun Nam, You-In Park, Hosik Park. (2019) \"Thin-film composite membranes comprising ultrathin hydrophilic polydopamine interlayer with graphene oxide for forward osmosis\" Desalination, 449, 41-49.",
+                "Hyeon-gyu Choi, Aatif Ali Shah, Seung-Eun Nam, Ahrumi Park, Pyung Soo Lee, You-In Park, Hosik Park. (2017) \"Optimization of polysulfone support layer for thin-film composite forward osmosis membrane\" Desalination and Water Treatment, 99, 155-161.",
+                "Hyeon-gyu Choi, Moon Son, Heechul Choi. (2017) \"Integrating seawater desalination and wastewater reclamation using a functionalized carbon nanotube blended thin-film nanocomposite membrane\" Chemosphere, 185, 1181-1188.",
+                "Hyeon-gyu Choi, SangHyeon Yoon, Moon Son, Evrim Celik, Hosik Park, Heechul Choi. (2016) \"Efficacy of synthesis conditions on functionalized carbon nanotube blended cellulose acetate membrane for desalination\" Desalination and Water Treatment, 57(16), 7545-7554.",
+                "Hyeon-gyu Choi, Moon Son, Sang Hyeon Yoon, Evrim Celik, Seoktae Kang, Hosik Park, Chul Hwi Park, Heechul Choi. (2015) \"Alginate fouling reduction of functionalized carbon nanotube blended cellulose acetate membrane in forward osmosis\" Chemosphere, 136, 204-210.",
+                "Young Hoon Cho, Sang Deuk Kim, Jeong F. Kim, Hyeon-gyu Choi, Youngmi Kim, Seung-Eun Nam, You-In Park, Hosik Park. (2019) \"Tailoring the porous structure of hollow fiber membranes for osmotic power generation applications via thermally assisted nonsolvent induced phase separation\" Journal of Membrane Science, 579, 329-341.",
+                "Aatif Ali Shah, Young Hoon Cho, Hyeon-gyu Choi, Seung-Eun Nam, Jeong F. Kim, Youngmi Kim, You-In Park, Hosik Park. (2019) \"Facile integration of halloysite nanotubes with bioadhesive as highly permeable interlayer in forward osmosis membranes\" Journal of Industrial and Engineering Chemistry, 73, 276-285.",
+                "Moon Son, Hosik Park, Lei Liu, Hyeongyu Choi, Joon Ha Kim, Heechul Choi. (2016) \"Thin-film nanocomposite membrane with CNT positioning in support layer for energy harvesting from saline water\" Chemical Engineering Journal, 284, 68-77.",
+                "Moon Son, Hyeon-gyu Choi, Lei Liu, Evrim Celik, Hosik Park, Heechul Choi. (2015) \"Efficacy of carbon nanotube positioning in the polyethersulfone support layer on the performance of thin-film composite membrane for desalination\" Chemical Engineering Journal, 266, 376-384.",
+                "Moon Son, Hyeongyu Choi, Lei Liu, Hosik Park, Heechul Choi. (2014) \"Optimized synthesis conditions of polyethersulfone support layer for enhanced water flux for thin film composite membrane\" Environmental Engineering Research, 19, 339-344.",
+                "Evrim Celik, Hosik Park, Hyeongyu Choi, Heechul Choi. (2011). \"Carbon nanotube blended polyethersulfone membranes for fouling control in water treatment\" Water Research, 45, 274-282."
+              ]
+            },
+            patents: {
+              title: "특허",
+              korea: "대한민국 특허등록 4건",
+              us: "미국 특허등록 1건",
+              pct: "PCT 특허출원 1건",
+              koreaList: [
+                "You-In Park, Seung-Eun Nam, Hosik Park, Hyeon-gyu Choi, Aatif Ali, Young Hoon Cho, Youngmi Kim. \"Water permeability-enhanced thin-film composite membrane comprising ultrathin hydrophilic polydopamine interlayer with graphene oxide for forward osmosis and preparing the same\" Korea Patent. (registration number: 10-1971130)",
+                "Hyeon-gyu Choi, You-In Park, Seung-Eun Nam, Hosik Park, Pyung Soo Lee, Aatif Ali. \"Thin-film composite membrane comprising ultrathin hydrophilic polydopamine interlayer with graphene oxide for forward osmosis and preparing the same\" Korea Patent. (registration number: 10-1852889)",
+                "Heechul Choi, Hyeon-gyu Choi. \"Nanocomposite membranes for forward osmosis and method for preparing the same\" Korea Patent. (registration number: 10-1386398)",
+                "Heechul Choi, Moon Son, Lei Liu, Hosik Park, Hyeon-gyu Choi. \"Thin film nanocomposite membranes for desalination and method for preparing the same\" Korea Patent. (registration number: 10-1386398)"
+              ],
+              usList: [
+                "Heechul Choi, Moon Son, Lei Liu, Hosik Park, Hyeon-gyu Choi. \"Nanocomposite ultra-thin separation membrane and method for manufacturing the same\" US Patent. (registration number: US 2016/0051939 A1)"
+              ],
+              pctList: [
+                "Heechul Choi, Moon Son, Lei Liu, Hosik Park, Hyeon-gyu Choi. \"Nanocomposite ultra-thin separation membrane and method for manufacturing the same\" PCT Patent. (application number: PCT/KR2013/003906)"
+              ]
+            },
+            skills: {
+              title: "나의 스킬",
+              categories: [
+                { name: "연구 및 기획", items: ["연구원", "R&D", "기술연구", "기술기획", "기술사업화", "R&D기획", "특허관리", "정책연구", "학술연구", "사업개발"] },
+                { name: "시험 및 인증", items: ["KOLAS", "측정불확도"] },
+                { name: "환경공학", items: ["환경공학", "분리막", "흡착", "촉매산화"] },
+                { name: "소프트웨어", items: ["Programming", "AI/인공지능"] },
+                { name: "사무", items: ["MS 오피스", "Microsoft Office 365"] }
+              ]
+            },
+            footer: "© 2025 Hyeon-gyu Choi. All Rights Reserved.",
+          },
+          en: {
+            name: "Hyeon-gyu Choi",
+            title: "Environmental Engineering Researcher | KOLAS Lead | Research Equipment Programmer",
+            contact: "Contact",
+            email1: "hgstyle@gmail.com",
+            email2: "hgstyle@naver.com",
+            totalExperience: "Total 14 years 9 months of experience",
+            sections: {
+              about: "About Me",
+              experience: "Experience",
+              education: "Education",
+              certifications: "Certifications/Language/Awards",
+              publications: "Publications",
+              patents: "Patents",
+              skills: "My Skills",
+              contactInfo: "Contact Information",
+            },
+            summary: {
+              title: "Brief Introduction",
+              items: [
+                {
+                  category: "Environmental Engineering Research Experience",
+                  description: "Obtained a combined Master's and Ph.D. in Environmental Engineering and gained research experience in related fields at government-funded research institutes. Specialized in the development of separation membranes, adsorbents, and advanced oxidation materials, with a primary focus on membrane research, and concurrently mentored graduate students."
+                },
+                {
+                  category: "KOLAS Accreditation Preparation Lead",
+                  description: "Successfully led the acquisition of KS Q ISO/IEC 17025 accreditation (concurrently serving as Quality Manager and Technical Manager). Supervised all accreditation preparation tasks for Air/Water/Odor/Indoor Air Quality fields (KOLAS 17025, 17043), including new quality document creation and management, and measurement uncertainty calculation management."
+                },
+                {
+                  category: "Research Project Proposal Writing & Presentation Lead",
+                  description: "Extensive experience in writing, presenting, and managing government-funded research projects (including interim/final reports). Successfully launched new projects not initially included in public calls (e.g., Smart Water Grid). Experienced in planning research proposals for single or consortium-type organizations. Independently managed all aspects from proposal writing to presentation while working at a company."
+                },
+                {
+                  category: "Research Equipment Software Engineer Training Experience",
+                  description: "Completed the Research Equipment Software Engineer Training Program at Korea Research Institute of Standards and Science. Proficient in main programming languages like C++, Python, and Java. Awarded the Grand Prize at the Research Achievement Presentation Contest for a project on AI model development for improving research equipment image quality."
+                }
+              ]
+            },
+            coreCompetencies: {
+              title: "Core Competencies",
+              items: [
+                "Overall management of KOLAS Air/Water/Odor testing accreditation (ISO 17025)",
+                "Extensive experience in national research project planning/execution/reporting and presentations",
+                "Environmental nanotechnology material development and process validation research (separation membranes, adsorption, advanced catalytic oxidation, etc.)",
+                "Completed a 1-year training program as a Research Equipment Software Engineer (Research Equipment Programmer)"
+              ]
+            },
+            experience: {
+              title: "Experience",
+              items: [
+                {
+                  title: "Principal Researcher, R&D",
+                  company: "Aldisolution",
+                  period: "June 2025 - July 2025 (2 months)",
+                  location: "Chungnam, South Korea",
+                  responsibilities: [
+                    "Research on dry refining recycling technology for spent secondary batteries",
+                    "Technical support for 1000-ton/year pilot process",
+                    "Management of related government projects",
+                    "Environmental issue response"
+                  ],
+                  salary: "Annual Salary: ₩60,000,000",
+                  reasonForLeaving: "Differences in management environment and job direction"
+                },
+                {
+                  title: "Principal Researcher, R&D Planning",
+                  company: "Korea Standard Environmental Research Institute",
+                  period: "Jan 2024 - May 2025 (1 year 5 months)",
+                  location: "Daejeon, South Korea",
+                  responsibilities: [
+                    "Overall management of KOLAS KS Q ISO/IEC 17025, 17043 accreditation (concurrently serving as Quality Manager and Technical Manager)",
+                    "Overall planning of environmental pollution and climate change standardization projects/investment plans"
+                  ],
+                  salary: "Annual Salary: ₩55,000,000",
+                  reasonForLeaving: "Management deterioration"
+                },
+                {
+                  title: "Analysis Team Lead / Head of Analysis",
+                  company: "Sinan Environmental Research Institute",
+                  period: "Mar 2024 - Dec 2024 (10 months)",
+                  location: "Daejeon, South Korea",
+                  responsibilities: [
+                    "Overall management of air/water pollutant measurement and analysis",
+                    "Technical manager for air analysis",
+                    "Overall planning of research/investment projects"
+                  ],
+                  salary: "Annual Salary: ₩55,000,000",
+                  reasonForLeaving: "Business closure"
+                },
+                {
+                  title: "GMA Trainee, Training Program",
+                  company: "Korea Research Institute of Standards and Science",
+                  period: "Feb 2022 - Dec 2022 (11 months)",
+                  location: "Daejeon, South Korea",
+                  responsibilities: [
+                    "Completed professional training program for research equipment (SW Engineer)",
+                    "Training in main programming languages: C/C++, Python, Java",
+                    "Performed in-depth project: AI model development for SEM image quality improvement",
+                    "Awarded Grand Prize (Minister of Science and ICT Award) at the in-depth project presentation contest"
+                  ],
+                  reasonForLeaving: "Program completion"
+                },
+                {
+                  title: "R&D, Technical Research Institute",
+                  company: "EST Inc.",
+                  period: "June 2021 - Jan 2022 (8 months)",
+                  location: "Daejeon, South Korea",
+                  responsibilities: [
+                    "Research on advanced catalytic oxidation material development and process validation"
+                  ],
+                  salary: "Annual Salary: ₩50,000,000",
+                  reasonForLeaving: "Contract expiration"
+                },
+                {
+                  title: "Senior Researcher, R&D",
+                  company: "Korea Research Institute of Chemical Technology",
+                  period: "Mar 2016 - May 2018 (2 years 3 months)",
+                  location: "Daejeon, South Korea",
+                  responsibilities: [
+                    "Research on membrane development for water treatment, seawater desalination, gas treatment",
+                    "Planning/execution of national research projects",
+                    "Mentoring foreign PhD students for thesis research"
+                  ],
+                  salary: "Annual Salary: ₩55,000,000",
+                  reasonForLeaving: "Contract expiration"
+                },
+                {
+                  title: "Researcher (Master's/Ph.D. combined program)",
+                  company: "Gwangju Institute of Science and Technology (GIST)",
+                  period: "Mar 2008 - Aug 2016 (8 years 6개월)",
+                  location: "Gwangju, South Korea",
+                  responsibilities: [
+                    "Environmental nanotechnology research and national research project planning"
+                  ]
+                }
+              ]
+            },
+            education: {
+              title: "Education",
+              items: [
+                {
+                  degree: "Ph.D. in Environmental Engineering",
+                  institution: "Gwangju Institute of Science and Technology (GIST)",
+                  period: "Mar 2008 - Aug 2016 (Graduated)",
+                  location: "Gwangju, South Korea",
+                  gpa: "3.94/4.5",
+                  thesis: "Nanocomposite Polymeric Membranes in Forward Osmosis for Seawater Desalination: Synthesis, Characterization and Effect of Functionalized Carbon Nanotube Blending for Seawater Desalination"
+                },
+                {
+                  degree: "B.S. in Environmental Engineering, Applied Chemical Engineering",
+                  institution: "Pusan National University",
+                  period: "Mar 2000 - Feb 2008 (Graduated)",
+                  location: "Busan, South Korea",
+                  gpa: "4.01/4.5"
+                }
+              ]
+            },
+            certifications: {
+              title: "Certifications / Language / Awards",
+              items: [
+                { date: "Oct 2020", name: "OPIC Advanced Low / PASS", issuer: "English" },
+                { date: "Mar 2007", name: "Air Environment Engineer (Final Pass)", issuer: "Korea Industrial Human Resources Development Authority" },
+                { date: "Nov 2007", name: "Water Quality Environment Engineer (Final Pass)", issuer: "Korea Industrial Human Resources Development Authority" },
+                { date: "Feb 2024", name: "ISO/IEC 17025 Operation Practice (Final Pass)", issuer: "Korea Testing Laboratory (KTL)" },
+                { date: "Feb 2024", name: "ISO/IEC 17043 Operation Practice (Final Pass)", issuer: "Korea Chemical Convergence Testing Research Institute (KOTITI)" },
+                { date: "Mar 2024", name: "Measurement Uncertainty Estimation Training (Final Pass)", issuer: "Korea Testing & Certification Industry Association" },
+                { date: "Dec 2022", name: "Research Equipment Professional Training Program Achievement Presentation Contest Grand Prize", issuer: "Ministry of Science and ICT" }
+              ]
+            },
+            publications: {
+              title: "Publications",
+              sci: "10 SCI Papers",
+              domestic: "1 Domestic Academic Paper",
+              sciList: [
+                "Hyeon-gyu Choi, Aatif Ali Shah, Seung-Eun Nam, You-In Park, Hosik Park. (2019) \"Thin-film composite membranes comprising ultrathin hydrophilic polydopamine interlayer with graphene oxide for forward osmosis\" Desalination, 449, 41-49.",
+                "Hyeon-gyu Choi, Aatif Ali Shah, Seung-Eun Nam, Ahrumi Park, Pyung Soo Lee, You-In Park, Hosik Park. (2017) \"Optimization of polysulfone support layer for thin-film composite forward osmosis membrane\" Desalination and Water Treatment, 99, 155-161.",
+                "Hyeon-gyu Choi, Moon Son, Heechul Choi. (2017) \"Integrating seawater desalination and wastewater reclamation using a functionalized carbon nanotube blended thin-film nanocomposite membrane\" Chemosphere, 185, 1181-1188.",
+                "Hyeon-gyu Choi, SangHyeon Yoon, Moon Son, Evrim Celik, Hosik Park, Heechul Choi. (2016) \"Efficacy of synthesis conditions on functionalized carbon nanotube blended cellulose acetate membrane for desalination\" Desalination and Water Treatment, 57(16), 7545-7554.",
+                "Hyeon-gyu Choi, Moon Son, Sang Hyeon Yoon, Evrim Celik, Seoktae Kang, Hosik Park, Chul Hwi Park, Heechul Choi. (2015) \"Alginate fouling reduction of functionalized carbon nanotube blended cellulose acetate membrane in forward osmosis\" Chemosphere, 136, 204-210.",
+                "Young Hoon Cho, Sang Deuk Kim, Jeong F. Kim, Hyeon-gyu Choi, Youngmi Kim, Seung-Eun Nam, You-In Park, Hosik Park. (2019) \"Tailoring the porous structure of hollow fiber membranes for osmotic power generation applications via thermally assisted nonsolvent induced phase separation\" Journal of Membrane Science, 579, 329-341.",
+                "Aatif Ali Shah, Young Hoon Cho, Hyeon-gyu Choi, Seung-Eun Nam, Jeong F. Kim, Youngmi Kim, You-In Park, Hosik Park. (2019) \"Facile integration of halloysite nanotubes with bioadhesive as highly permeable interlayer in forward osmosis membranes\" Journal of Industrial and Engineering Chemistry, 73, 276-285.",
+                "Moon Son, Hosik Park, Lei Liu, Hyeongyu Choi, Joon Ha Kim, Heechul Choi. (2016) \"Thin-film nanocomposite membrane with CNT positioning in support layer for energy harvesting from saline water\" Chemical Engineering Journal, 284, 68-77.",
+                "Moon Son, Hyeon-gyu Choi, Lei Liu, Evrim Celik, Hosik Park, Heechul Choi. (2015) \"Efficacy of carbon nanotube positioning in the polyethersulfone support layer on the performance of thin-film composite membrane for desalination\" Chemical Engineering Journal, 266, 376-384.",
+                "Moon Son, Hyeongyu Choi, Lei Liu, Hosik Park, Heechul Choi. (2014) \"Optimized synthesis conditions of polyethersulfone support layer for enhanced water flux for thin film composite membrane\" Environmental Engineering Research, 19, 339-344.",
+                "Evrim Celik, Hosik Park, Hyeongyu Choi, Heechul Choi. (2011). \"Carbon nanotube blended polyethersulfone membranes for fouling control in water treatment\" Water Research, 45, 274-282."
+              ]
+            },
+            patents: {
+              title: "Patents",
+              korea: "4 Korean Patents Registered",
+              us: "1 US Patent Registered",
+              pct: "1 PCT Patent Application",
+              koreaList: [
+                "You-In Park, Seung-Eun Nam, Hosik Park, Hyeon-gyu Choi, Aatif Ali, Young Hoon Cho, Youngmi Kim. \"Water permeability-enhanced thin-film composite membrane comprising ultrathin hydrophilic polydopamine interlayer with graphene oxide for forward osmosis and preparing the same\" Korea Patent. (registration number: 10-1971130)",
+                "Hyeon-gyu Choi, You-In Park, Seung-Eun Nam, Hosik Park, Pyung Soo Lee, Aatif Ali. \"Thin-film composite membrane comprising ultrathin hydrophilic polydopamine interlayer with graphene oxide for forward osmosis and preparing the same\" Korea Patent. (registration number: 10-1852889)",
+                "Heechul Choi, Hyeon-gyu Choi. \"Nanocomposite membranes for forward osmosis and method for preparing the same\" Korea Patent. (registration number: 10-1386398)",
+                "Heechul Choi, Moon Son, Lei Liu, Hosik Park, Hyeon-gyu Choi. \"Thin film nanocomposite membranes for desalination and method for preparing the same\" Korea Patent. (registration number: 10-1386398)"
+              ],
+              usList: [
+                "Heechul Choi, Moon Son, Lei Liu, Hosik Park, Hyeon-gyu Choi. \"Nanocomposite ultra-thin separation membrane and method for manufacturing the same\" US Patent. (registration number: US 2016/0051939 A1)"
+              ],
+              pctList: [
+                "Heechul Choi, Moon Son, Lei Liu, Hosik Park, Hyeon-gyu Choi. \"Nanocomposite ultra-thin separation membrane and method for manufacturing the same\" PCT Patent. (application number: PCT/KR2013/003906)"
+              ]
+            },
+            skills: {
+              title: "My Skills",
+              categories: [
+                { name: "Research & Planning", items: ["Researcher", "R&D", "Tech Research", "Tech Planning", "Tech Commercialization", "R&D Planning", "Patent Management", "Policy Research", "Academic Research", "Business Development"] },
+                { name: "Testing & Certification", items: ["KOLAS", "Measurement Uncertainty"] },
+                { name: "Environmental Eng.", items: ["Environmental Eng.", "Membranes", "Adsorption", "Catalytic Oxidation"] },
+                { name: "Software", items: ["Programming", "AI"] },
+                { name: "Office", items: ["MS Office", "Microsoft Office 365"] }
+              ]
+            },
+            footer: "© 2025 Hyeon-gyu Choi. All Rights Reserved.",
+          },
+        };
+
+        // 메인 App 컴포넌트
+        function App() {
+          // 언어 상태 관리
+          const [lang, setLang] = useState('ko');
+          const t = content[lang];
+
+          // 다크 모드 상태 관리 (기본값은 시스템 설정 또는 저장된 값)
+          const [isDarkMode, setIsDarkMode] = useState(() => {
+            try {
+                const savedMode = localStorage.getItem('darkMode');
+                return savedMode ? JSON.parse(savedMode) : window.matchMedia('(prefers-color-scheme: dark)').matches;
+            } catch (e) {
+                console.error("Could not parse dark mode from localStorage", e);
+                return window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
+          });
+
+          // 언어 전환 핸들러
+          const toggleLanguage = () => {
+            setLang(prevLang => (prevLang === 'ko' ? 'en' : 'ko'));
+          };
+
+          // 다크 모드 전환 핸들러
+          const toggleDarkMode = () => {
+            setIsDarkMode(prevMode => {
+              const newMode = !prevMode;
+              try {
+                localStorage.setItem('darkMode', JSON.stringify(newMode)); // 로컬 스토리지에 저장
+              } catch (e) {
+                console.error("Could not save dark mode to localStorage", e);
+              }
+              return newMode;
+            });
+          };
+
+          // isDarkMode 상태 변경 시 body/html 태그에 'dark' 클래스 적용
+          useEffect(() => {
+            if (isDarkMode) {
+              document.documentElement.classList.add('dark');
+            } else {
+              document.documentElement.classList.remove('dark');
+            }
+          }, [isDarkMode]);
+
+          // 스크롤 시 네비게이션 링크 활성화
+          useEffect(() => {
+            const handleScroll = () => {
+              const sections = document.querySelectorAll('section[id]');
+              const navLinks = document.querySelectorAll('.nav-link');
+              let currentSectionId = '';
+
+              sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= sectionTop - 100) {
+                    currentSectionId = section.getAttribute('id');
+                }
+              });
+
+              navLinks.forEach(link => {
+                link.classList.remove('font-bold', 'text-sky-600', 'dark:text-sky-400');
+                if (link.getAttribute('href') === `#${currentSectionId}`) {
+                  link.classList.add('font-bold', 'text-sky-600', 'dark:text-sky-400');
+                }
+              });
+            };
+
+            window.addEventListener('scroll', handleScroll);
+            handleScroll(); // 초기 로드 시 실행
+            return () => window.removeEventListener('scroll', handleScroll);
+          }, []);
+
+          return (
+            <div className="font-sans text-gray-800 bg-gray-50 min-h-screen dark:bg-gray-900 dark:text-gray-200 transition-colors duration-300">
+              {/* Header and Navigation */}
+              <header className="bg-white shadow-md sticky top-0 z-50 dark:bg-gray-800 dark:shadow-lg transition-colors duration-300">
+                <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
+                  <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {t.name}
+                  </h1>
+                  <div className="flex items-center space-x-4">
+                    <button
+                      onClick={toggleLanguage}
+                      className="px-3 py-1 bg-sky-500 text-white rounded-full text-sm hover:bg-sky-600 transition"
+                    >
+                      {lang === 'ko' ? 'English' : '한국어'}
+                    </button>
+                    <button
+                      onClick={toggleDarkMode}
+                      className="px-3 py-1 bg-gray-700 text-white rounded-full text-sm hover:bg-gray-600 transition dark:bg-gray-200 dark:text-gray-800 dark:hover:bg-gray-300"
+                    >
+                      {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+                    </button>
+                    <div className="hidden md:flex space-x-4">
+                      {Object.entries(t.sections).map(([key, value]) => (
+                        <a key={key} href={`#${key}`} className="nav-link text-gray-600 hover:text-sky-600 dark:text-gray-300 dark:hover:text-sky-400 transition">
+                          {value}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </nav>
+              </header>
+
+              {/* Main Content */}
+              <main className="container mx-auto px-4 py-8">
+                {/* Hero Section */}
+                <section id="hero" className="text-center py-16 bg-gradient-to-r from-sky-50 to-blue-100 rounded-lg shadow-lg mb-12 dark:from-gray-700 dark:to-gray-800 transition-colors duration-300">
+                  <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2 dark:text-white">{t.name}</h2>
+                  <p className="text-xl text-gray-700 mb-4 dark:text-gray-300">{t.title}</p>
+                  <p className="text-md text-gray-600 dark:text-gray-400">{t.totalExperience}</p>
+                </section>
+
+                {/* About Me Section */}
+                <section id="about" className="bg-white p-8 rounded-lg shadow-md mb-12 dark:bg-gray-800 transition-colors duration-300 scroll-mt-20">
+                  <h3 className="text-3xl font-bold text-blue-700 mb-6 border-b-2 border-blue-200 pb-2 dark:text-blue-400 dark:border-blue-700">{t.sections.about}</h3>
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="text-2xl font-semibold text-gray-800 mb-4 dark:text-gray-100">{t.summary.title}</h4>
+                      <div className="space-y-4">
+                        {t.summary.items.map((item, index) => (
+                          <div key={index} className="bg-gray-50 p-4 rounded-md border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                            <p className="font-medium text-lg text-sky-700 mb-1 dark:text-sky-300">{item.category}</p>
+                            <p className="text-gray-700 leading-relaxed dark:text-gray-300">{item.description}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mt-8">
+                      <h4 className="text-2xl font-semibold text-gray-800 mb-4 dark:text-gray-100">{t.coreCompetencies.title}</h4>
+                      <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
+                        {t.coreCompetencies.items.map((item, index) => (
+                          <li key={index}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Experience Section */}
+                <section id="experience" className="bg-white p-8 rounded-lg shadow-md mb-12 dark:bg-gray-800 transition-colors duration-300 scroll-mt-20">
+                  <h3 className="text-3xl font-bold text-blue-700 mb-6 border-b-2 border-blue-200 pb-2 dark:text-blue-400 dark:border-blue-700">{t.sections.experience}</h3>
+                  <div className="space-y-8">
+                    {t.experience.items.map((job, index) => (
+                      <div key={index} className="border-l-4 border-sky-500 pl-4 py-2 bg-gray-50 rounded-md shadow-sm dark:bg-gray-700 dark:border-sky-700">
+                        <h4 className="text-xl font-bold text-gray-900 dark:text-white">{job.title} - {job.company}</h4>
+                        <p className="text-gray-600 text-sm mb-2 dark:text-gray-400">{job.period} | {job.location}</p>
+                        {job.salary && <p className="text-gray-600 text-sm mb-1 dark:text-gray-400">{job.salary}</p>}
+                        {job.reasonForLeaving && <p className="text-gray-600 text-sm mb-2 dark:text-gray-400">({job.reasonForLeaving})</p>}
+                        <ul className="list-disc list-inside text-gray-700 space-y-1 dark:text-gray-300">
+                          {job.responsibilities.map((resp, i) => (
+                            <li key={i}>{resp}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* Education Section */}
+                <section id="education" className="bg-white p-8 rounded-lg shadow-md mb-12 dark:bg-gray-800 transition-colors duration-300 scroll-mt-20">
+                  <h3 className="text-3xl font-bold text-blue-700 mb-6 border-b-2 border-blue-200 pb-2 dark:text-blue-400 dark:border-blue-700">{t.sections.education}</h3>
+                  <div className="space-y-8">
+                    {t.education.items.map((edu, index) => (
+                      <div key={index} className="border-l-4 border-amber-500 pl-4 py-2 bg-gray-50 rounded-md shadow-sm dark:bg-gray-700 dark:border-amber-700">
+                        <h4 className="text-xl font-bold text-gray-900 dark:text-white">{edu.degree} - {edu.institution}</h4>
+                        <p className="text-gray-600 text-sm mb-2 dark:text-gray-400">{edu.period} {edu.location ? `| ${edu.location}` : ''}</p>
+                        {edu.gpa && <p className="text-gray-700 dark:text-gray-300">GPA: {edu.gpa}</p>}
+                        {edu.thesis && <p className="text-gray-700 dark:text-gray-300">Thesis: {edu.thesis}</p>}
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* Certifications, Language, Awards Section */}
+                <section id="certifications" className="bg-white p-8 rounded-lg shadow-md mb-12 dark:bg-gray-800 transition-colors duration-300 scroll-mt-20">
+                  <h3 className="text-3xl font-bold text-blue-700 mb-6 border-b-2 border-blue-200 pb-2 dark:text-blue-400 dark:border-blue-700">{t.sections.certifications}</h3>
+                  <div className="space-y-4">
+                    {t.certifications.items.map((cert, index) => (
+                      <div key={index} className="flex items-center space-x-3 bg-gray-50 p-3 rounded-md shadow-sm dark:bg-gray-700">
+                        <span className="text-sky-600 text-lg dark:text-sky-400">●</span>
+                        <p className="text-gray-700 dark:text-gray-300"><span className="font-semibold">{cert.name}</span> ({cert.date}) - {cert.issuer}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* Publications Section */}
+                <section id="publications" className="bg-white p-8 rounded-lg shadow-md mb-12 dark:bg-gray-800 transition-colors duration-300 scroll-mt-20">
+                  <h3 className="text-3xl font-bold text-blue-700 mb-6 border-b-2 border-blue-200 pb-2 dark:text-blue-400 dark:border-blue-700">{t.sections.publications}</h3>
+                  <p className="text-lg font-semibold text-gray-800 mb-4 dark:text-gray-100">{t.publications.sci}</p>
+                  <ul className="list-decimal list-inside space-y-3 text-gray-700 mb-6 dark:text-gray-300">
+                    {t.publications.sciList.map((pub, index) => (
+                      <li key={index} className="leading-relaxed">{pub}</li>
+                    ))}
+                  </ul>
+                  <p className="text-lg font-semibold text-gray-800 mb-4 dark:text-gray-100">{t.publications.domestic}</p>
+                  <p className="text-gray-700 dark:text-gray-300"> (상세 내용은 이력서 원본 참조)</p>
+                </section>
+
+                {/* Patents Section */}
+                <section id="patents" className="bg-white p-8 rounded-lg shadow-md mb-12 dark:bg-gray-800 transition-colors duration-300 scroll-mt-20">
+                  <h3 className="text-3xl font-bold text-blue-700 mb-6 border-b-2 border-blue-200 pb-2 dark:text-blue-400 dark:border-blue-700">{t.sections.patents}</h3>
+                  <p className="text-lg font-semibold text-gray-800 mb-4 dark:text-gray-100">{t.patents.korea}</p>
+                  <ul className="list-decimal list-inside space-y-3 text-gray-700 mb-6 dark:text-gray-300">
+                    {t.patents.koreaList.map((patent, index) => (
+                      <li key={index} className="leading-relaxed">{patent}</li>
+                    ))}
+                  </ul>
+                  <p className="text-lg font-semibold text-gray-800 mb-4 dark:text-gray-100">{t.patents.us}</p>
+                  <ul className="list-decimal list-inside space-y-3 text-gray-700 mb-6 dark:text-gray-300">
+                    {t.patents.usList.map((patent, index) => (
+                      <li key={index} className="leading-relaxed">{patent}</li>
+                    ))}
+                  </ul>
+                  <p className="text-lg font-semibold text-gray-800 mb-4 dark:text-gray-100">{t.patents.pct}</p>
+                  <ul className="list-decimal list-inside space-y-3 text-gray-700 mb-6 dark:text-gray-300">
+                    {t.patents.pctList.map((patent, index) => (
+                      <li key={index} className="leading-relaxed">{patent}</li>
+                    ))}
+                  </ul>
+                </section>
+
+                {/* Skills Section */}
+                <section id="skills" className="bg-white p-8 rounded-lg shadow-md mb-12 dark:bg-gray-800 transition-colors duration-300 scroll-mt-20">
+                  <h3 className="text-3xl font-bold text-blue-700 mb-6 border-b-2 border-blue-200 pb-2 dark:text-blue-400 dark:border-blue-700">{t.sections.skills}</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {t.skills.categories.map((category, index) => (
+                      <div key={index} className="bg-gray-50 p-5 rounded-md shadow-sm border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                        <h4 className="text-xl font-semibold text-sky-700 mb-3 dark:text-sky-300">{category.name}</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {category.items.map((skill, i) => (
+                            <span key={i} className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full dark:bg-blue-800 dark:text-blue-100">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* Contact Info Section */}
+                <section id="contactInfo" className="bg-white p-8 rounded-lg shadow-md mb-12 text-center dark:bg-gray-800 transition-colors duration-300 scroll-mt-20">
+                  <h3 className="text-3xl font-bold text-blue-700 mb-6 border-b-2 border-blue-200 pb-2 dark:text-blue-400 dark:border-blue-700">{t.sections.contactInfo}</h3>
+                  <div className="space-y-4 text-lg text-gray-700 dark:text-gray-300">
+                    <p className="flex items-center justify-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-sky-600 dark:text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      <a href={`mailto:${t.email1}`} className="text-sky-600 hover:underline dark:text-sky-400">{t.email1}</a>
+                    </p>
+                    <p className="flex items-center justify-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-sky-600 dark:text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      <a href={`mailto:${t.email2}`} className="text-sky-600 hover:underline dark:text-sky-400">{t.email2}</a>
+                    </p>
+                  </div>
+                </section>
+              </main>
+
+              {/* Footer */}
+              <footer className="bg-gray-900 text-white py-6 text-center text-sm rounded-t-lg dark:bg-gray-950 transition-colors duration-300">
+                <p>{t.footer}</p>
+              </footer>
+            </div>
+          );
+        }
+
+        // Mount the App component to the DOM
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(<App />);
+    </script>
+</body>
+</html>
